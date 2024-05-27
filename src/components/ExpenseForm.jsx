@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+import { FamilyContext } from "../context/FamilyContext";
 
 const StForm = styled.form`
   display: flex;
@@ -25,7 +26,8 @@ const StForm = styled.form`
   }
 `;
 
-function ExpenseForm({ setLists, activeDate, setSelectedMonth }) {
+function ExpenseForm({ activeDate, setSelectedMonth }) {
+  const { setLists } = useContext(FamilyContext);
   const onSubmit = (e) => {
     e.preventDefault();
 

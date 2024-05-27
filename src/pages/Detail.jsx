@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { FamilyContext } from "../context/FamilyContext";
 
 const StForm = styled.form`
   display: flex;
@@ -42,7 +43,8 @@ const StBtnDiv = styled.div`
   gap: 10px;
 `;
 
-function Detail({ lists, setLists }) {
+function Detail() {
+  const { lists, setLists } = useContext(FamilyContext);
   const navigate = useNavigate();
   const { id } = useParams();
   const detail = lists.find((list) => list.id == id);

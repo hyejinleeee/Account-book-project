@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import ExpenseForm from "../components/ExpenseForm";
 import MonthlyBtns from "../components/MonthlyBtns";
 import MonthlyList from "../components/MonthlyList";
+import { FamilyContext } from "../context/FamilyContext";
 
-function Home({ lists, setLists }) {
+function Home() {
+  const { lists } = useContext(FamilyContext);
   const [selectedMonth, setSelectedMonth] = useState(
     JSON.parse(localStorage.getItem("selectedMonth") ?? 2)
   );
@@ -27,7 +29,6 @@ function Home({ lists, setLists }) {
   return (
     <>
       <ExpenseForm
-        setLists={setLists}
         setSelectedMonth={setSelectedMonth}
         activeDate={activeDate}
       />
