@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 const StUl = styled.ul`
   width: 750px;
@@ -50,13 +51,19 @@ const StLi = styled.li`
   }
 `;
 
-function MonthlyList({ filteredLists }) {
+function MonthlyList() {
+  const selectedMonth = useSelector((state) => state.btn);
+  const lists = useSelector((state) => state.expense.lists);
+
+  const filteredLists = lists.filter(
+    (list) => parseInt(list.date.split("-")[1]) == selectedMonth
+  );
+
   const navigate = useNavigate();
 
   const handleClick = (id) => {
     navigate(`/detail/${id}`);
   };
-
   return (
     <StUl>
       {filteredLists.map((list) => (

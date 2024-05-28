@@ -1,7 +1,8 @@
-import React, { useRef, useContext } from "react";
+import React, { useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { FamilyContext } from "../context/FamilyContext";
+import { useDispatch, useSelector } from "react-redux";
+import { addList, delList } from "../redux/slices/expenseSlice";
 
 const StForm = styled.form`
   display: flex;
@@ -44,10 +45,11 @@ const StBtnDiv = styled.div`
 `;
 
 function Detail() {
-  const { lists, setLists } = useContext(FamilyContext);
   const navigate = useNavigate();
   const { id } = useParams();
+  const lists = useSelector((state) => state.expense.lists);
   const detail = lists.find((list) => list.id == id);
+  const dispatch = useDispatch();
 
   const dateRef = useRef();
   const itemRef = useRef();
@@ -61,32 +63,29 @@ function Detail() {
     if (!datePattern.test(dateRef.current.value)) {
       alert("날짜 형식이 올바르지 않습니다. YYYY-MM-DD 형식으로 입력해주세요.");
       return;
-    }
-
-    if (amountRef.current.value < 1) {
+    } else if (amountRef.current.value < 1) {
       alert("유효한 금액을 입력해주세요.");
       return;
     }
 
-    const delLists = lists.filter((list) => list.id != id);
+    dispatch(delList(id));
 
     const updatedList = {
-      ...detail,
+      id,
       date: dateRef.current.value,
       item: itemRef.current.value,
       amount: amountRef.current.value,
       description: descriptionRef.current.value,
     };
+    dispatch(addList(updatedList));
 
-    setLists([...delLists, updatedList]);
     navigate(`/`);
   };
 
   const handleDelete = () => {
     const userConfirmed = confirm("정말로 이 지출을 삭제하시겠습니까?");
     if (userConfirmed) {
-      const delLists = lists.filter((list) => list.id !== id);
-      setLists(delLists);
+      dispatch(delList(id));
       navigate(`/`);
     }
   };

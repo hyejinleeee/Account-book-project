@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedMonth } from "../redux/slices/btnSlice";
 
 const StBtndiv = styled.div`
   margin-top: 20px;
@@ -31,11 +33,14 @@ const StBtn = styled.button`
   }
 `;
 
-function MonthlyBtns({ selectedMonth, setSelectedMonth }) {
+function MonthlyBtns() {
+  const dispatch = useDispatch();
+  const selectedMonth = useSelector((state) => state.btn);
+
   const months = Array.from({ length: 12 }, (_, i) => i + 1);
 
   const handleClick = (month) => {
-    setSelectedMonth(month);
+    dispatch(setSelectedMonth(month));
   };
 
   return (

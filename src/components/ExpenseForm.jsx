@@ -1,6 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
-import { FamilyContext } from "../context/FamilyContext";
+import { useDispatch, useSelector } from "react-redux";
+import { addList } from "../redux/slices/expenseSlice";
+import { setSelectedMonth } from "../redux/slices/btnSlice";
 
 const StForm = styled.form`
   display: flex;
@@ -26,8 +28,10 @@ const StForm = styled.form`
   }
 `;
 
-function ExpenseForm({ activeDate, setSelectedMonth }) {
-  const { setLists } = useContext(FamilyContext);
+function ExpenseForm({ activeDate }) {
+  const dispatch = useDispatch();
+  const selectedMonth = useSelector((state) => state.btn);
+
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -41,23 +45,24 @@ function ExpenseForm({ activeDate, setSelectedMonth }) {
     if (!datePattern.test(date)) {
       alert("날짜 형식이 올바르지 않습니다. YYYY-MM-DD 형식으로 입력해주세요.");
       return;
-    }
-
-    if (amount < 1) {
+    } else if (amount < 1) {
       alert("유효한 금액을 입력해주세요.");
       return;
     }
 
     const nextList = {
       id: crypto.randomUUID(),
-      date: date,
-      item: item,
-      amount: amount,
-      description: description,
+      date,
+      item,
+      amount,
+      description,
     };
 
-    setLists((prev) => [...prev, nextList]);
-    setSelectedMonth(parseInt(nextList.date.split("-")[1])); //폼에 입력한 월 기준으로 리렌더링
+    dispatch(addList(nextList));
+
+    //폼에 입력한 월 기준으로 리렌더링
+    dispatch(setSelectedMonth(parseInt(nextList.date.split("-")[1])));
+
     e.target.reset();
   };
 
