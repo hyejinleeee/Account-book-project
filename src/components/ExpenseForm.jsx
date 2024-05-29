@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { v4 as uuidv4 } from "uuid";
 
 const StForm = styled.form`
   display: flex;
@@ -47,7 +48,7 @@ function ExpenseForm({ setLists, activeDate, setSelectedMonth }) {
     }
 
     const nextList = {
-      id: crypto.randomUUID(),
+      id: uuidv4(),
       date: date,
       item: item,
       amount: amount,
