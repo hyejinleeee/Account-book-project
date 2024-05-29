@@ -30,7 +30,6 @@ const StForm = styled.form`
 
 function ExpenseForm({ activeDate }) {
   const dispatch = useDispatch();
-  const selectedMonth = useSelector((state) => state.btn);
 
   const onSubmit = (e) => {
     e.preventDefault();
