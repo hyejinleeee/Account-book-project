@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { addList } from "../redux/slices/expenseSlice";
 import { setSelectedMonth } from "../redux/slices/btnSlice";
+import {v4 as uuidv4} from "uuid";
 
 const StForm = styled.form`
   display: flex;
@@ -50,7 +51,7 @@ function ExpenseForm({ activeDate }) {
     }
 
     const nextList = {
-      id: crypto.randomUUID(),
+      id: uuidv4(),
       date,
       item,
       amount,
