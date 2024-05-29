@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { FamilyContext } from "../context/FamilyContext";
+import { v4 as uuidv4 } from "uuid";
 
 const StForm = styled.form`
   display: flex;
@@ -49,7 +50,7 @@ function ExpenseForm({ activeDate, setSelectedMonth }) {
     }
 
     const nextList = {
-      id: crypto.randomUUID(),
+      id: uuidv4(),
       date: date,
       item: item,
       amount: amount,
